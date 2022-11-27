@@ -1,37 +1,45 @@
-import subprocess
+import ast
+from typing import Set
+from flake8_global_variables import GlobalVariablesChecker
 
 
-def test_correct_module(absolute_path):
-    filename = absolute_path('fixtures', 'correct.py')
-    process = subprocess.Popen(
-        [
-            'flake8',
-            '--isolated',
-            '--select',
-            'GV4',
-            filename,
-        ],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-    stdout, _ = process.communicate()
-
-    assert len(stdout) == 0, stdout
+def _results(code: str) -> Set[str]:
+    tree = ast.parse(code)
+    plugin = GlobalVariablesChecker(tree)
+    return {f"{line}:{col} {msg}" for line, col, msg, _ in plugin.run()}
 
 
-def test_incorrect_fixture(absolute_path):
-    filename = absolute_path('fixtures', 'incorrect.py')
-    process = subprocess.Popen(
-        [
-            'flake8',
-            '--isolated',
-            '--select',
-            'GV4',
-            filename,
-        ],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
-    stdout, _ = process.communicate()
+def test_correct_code():
+    result = _results(
+"""
+HELLO_CONSTANT = 'Hello'
 
-    assert stdout.count(b'GV400') == 2
+def fun_a():
+    return 2
+        
+def fun_b(var=5):
+    result = fun_a() + var
+    return result
+        
+fun_b(var=3)""")
+    assert len(result) == 0
+
+
+def test_incorrect_code():
+    result = _results(
+"""
+global_hello = 'Hello'
+
+def fun_a():
+    return 2
+        
+def fun_b(var=5):
+    result = fun_a() + var
+    return result
+            
+global_var = 3
+fun_b(global_var)""")
+    assert result == {
+        '11:0 GV400: Found global variable',
+        '2:0 GV400: Found global variable',
+    }
