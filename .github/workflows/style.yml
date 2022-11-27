@@ -13,6 +13,6 @@ jobs:
         with:
           python-version: "3.9"
       - run: pip install flake8 isort black
-      - run: flake8 .
-      - run: isort . --check --diff
-      - run: black . --check --diff
+      - run: flake8 flake8_global_variables
+      - run: isort flake8_global_variables --check --diff
+      - run: black flake8_global_variables --check --diff
