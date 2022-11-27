@@ -1,5 +1,6 @@
 # flake8-global-variables
 
+[![Tests](https://github.com/pacifikus/flake8-global-variables/actions/workflows/test.yml/badge.svg)](https://github.com/pacifikus/flake8-global-variables/actions/workflows/test.yml)
 [![Python Version](https://img.shields.io/pypi/pyversions/flake8-global-variables.svg)](https://pypi.org/project/flake8-global-variables/)
 [![PyPI version](https://badge.fury.io/py/flake8-global-variables.svg)](https://pypi.org/project/flake8-global-variables/)
 
