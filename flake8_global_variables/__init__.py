@@ -1,4 +1,3 @@
-import sys
 import ast
 from typing import Any, Type, Tuple, Generator
 
