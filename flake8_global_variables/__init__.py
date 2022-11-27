@@ -1,10 +1,9 @@
 import ast
-from typing import Any, Type, Tuple, Generator
-
+from typing import Any, Generator, Tuple, Type
 
 __version__: str = "0.1.2"
 
-_GV400 = 'GV400: Found global variable'
+_GV400 = "GV400: Found global variable"
 
 
 class Visitor(ast.NodeVisitor):
@@ -20,7 +19,7 @@ class Visitor(ast.NodeVisitor):
     def visit_Assign(self, node):
         if node.col_offset == 0:
             for target in node.targets:
-                if hasattr(target, 'id') and not target.id.isupper():
+                if hasattr(target, "id") and not target.id.isupper():
                     self.errors.append((node.lineno, node.col_offset, _GV400))
                     self.generic_visit(node)
 
