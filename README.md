@@ -1,7 +1,9 @@
 # flake8-global-variables
 
-[flake8](https://flake8.pycqa.org/en/latest/index.html) plugin to prevent from global
-variables using.
+[![Python Version](https://img.shields.io/pypi/pyversions/flake8-global-variables.svg)](https://pypi.org/project/flake8-global-variables/)
+[![PyPI version](https://badge.fury.io/py/flake8-global-variables.svg)](https://pypi.org/project/flake8-global-variables/)
+
+[flake8](https://flake8.pycqa.org/en/latest/index.html) plugin to prevent from global variables using.
 
 ## Installation
 
