@@ -21,13 +21,9 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install poetry
-      run: |
-        pip install poetry
     - name: Install dependencies
       run: |
-        poetry install
+        pip install pytest
     - name: Run tests
       run: |
-        poetry run flake8 .
         poetry run pytest tests
