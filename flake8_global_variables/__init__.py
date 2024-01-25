@@ -12,14 +12,18 @@ class Visitor(ast.NodeVisitor):
 
     def visit_Global(self, node):
         for name in node.names:
-            if not name.isupper():
+            is_constant = name.isupper()
+            is_dunder = name.startswith('__') and name.endswith('__')
+            if not (is_constant or is_dunder):
                 self.errors.append((node.lineno, node.col_offset, _GV400))
                 self.generic_visit(node)
 
     def visit_Assign(self, node):
         if node.col_offset == 0:
             for target in node.targets:
-                if hasattr(target, "id") and not target.id.isupper():
+                is_constant = target.id.isupper()
+                is_dunder = target.id.startswith('__') and target.id.endswith('__')
+                if hasattr(target, 'id') and not (is_constant or is_dunder):
                     self.errors.append((node.lineno, node.col_offset, _GV400))
                     self.generic_visit(node)
 
